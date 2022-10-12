@@ -1,8 +1,0 @@
-{
-  "name": "app",
-  "private": true,
-  "modular": {
-    "type": "app"
-  },
-  "version": "1.0.0"
-}
