@@ -1,0 +1,65 @@
+{
+  "name": "modular-microfrontends",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Cristiano Belloni <cristiano.belloni@jpmorgan.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/**"
+  ],
+  "modular": {
+    "type": "root"
+  },
+  "scripts": {
+    "start": "modular start",
+    "build": "modular build",
+    "test": "modular test",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "prettier": "prettier --write .",
+    "serve:view1": "yarn http-server dist/view1 --cors -c-1 -p 5001 .",
+    "serve:view2": "yarn http-server dist/view2 --cors -c-1 -p 5002 ."
+  },
+  "eslintConfig": {
+    "extends": "modular-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 80,
+    "proseWrap": "always"
+  },
+  "dependencies": {
+    "@testing-library/dom": "^8.18.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^29.1.1",
+    "@types/node": "^18.7.6",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "eslint-config-modular-app": "^3.0.1",
+    "modular-scripts": "^3.3.2",
+    "modular-template-app": "^1.1.0",
+    "modular-template-esm-view": "^1.0.0",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": ">=4.2.1 <4.5.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
