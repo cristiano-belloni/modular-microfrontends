@@ -1,7 +1,6 @@
 {
   "name": "modular-microfrontends",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Cristiano Belloni <cristiano.belloni@jpmorgan.com>",
   "license": "MIT",
   "private": true,
@@ -11,14 +10,17 @@
   "modular": {
     "type": "root"
   },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "scripts": {
     "start": "modular start",
     "build": "modular build",
     "test": "modular test",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "prettier": "prettier --write .",
-    "serve:view1": "yarn http-server dist/view1 --cors -c-1 -p 5001 .",
-    "serve:view2": "yarn http-server dist/view2 --cors -c-1 -p 5002 ."
+    "serve": "yarn workspace server start"
   },
   "eslintConfig": {
     "extends": "modular-app"
@@ -61,9 +63,5 @@
   },
   "devDependencies": {
     "http-server": "^14.1.1"
-  },
-  "resolutions": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
   }
 }
