@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
   BorderItem,
   BorderLayout,
+  Card,
   FlexLayout,
-  Panel,
   ToolkitProvider,
 } from '@jpmorganchase/uitk-core';
 
@@ -15,10 +15,9 @@ import {
   ThemePicker,
 } from './components';
 import { AvatarSize, Person, Theme } from './types';
+import { person } from './util/person';
 
 import '@jpmorganchase/uitk-theme/index.css';
-import './EsmView.css';
-import { person } from './util/person';
 
 const data: Person[] = [
   person('Steve', 'King', 'x'),
@@ -51,7 +50,7 @@ export default function EsmView(): JSX.Element {
   return (
     <ToolkitProvider theme={theme} density={'medium'}>
       <AvatarSizeProvider value={avatarSize}>
-        <Panel>
+        <Card>
           <BorderLayout gap={gapSize}>
             <BorderItem position={'header'}>
               <FlexLayout gap={gapSize}>
@@ -64,7 +63,7 @@ export default function EsmView(): JSX.Element {
               <PersonGrid data={data} avatarSize={avatarSize} />
             </BorderItem>
           </BorderLayout>
-        </Panel>
+        </Card>
       </AvatarSizeProvider>
     </ToolkitProvider>
   );

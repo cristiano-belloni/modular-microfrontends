@@ -7,7 +7,6 @@ import { Person } from './types';
 import { PERSON, person } from './util/person';
 
 import '@jpmorganchase/uitk-theme/index.css';
-import './EsmView.css';
 
 const steve: Person = person('Steve', 'King', 'x');
 

@@ -1,73 +1,33 @@
-import * as React from 'react';
-import './index.css';
+import React from 'react';
 
-interface Manifest {
-  module: string;
-  style?: string;
-}
+import {
+  FlexItem,
+  FlexLayout,
+  ToolkitProvider,
+} from '@jpmorganchase/uitk-core';
 
-interface View {
-  default: React.ComponentType;
-}
+import { RemoteView, RemoteViews, ViewMenu } from './components';
+import { useArray } from './util';
 
-type MicroFrontendState = Record<string, React.ComponentType>;
+import '@jpmorganchase/uitk-theme/index.css';
+import styles from './index.module.css';
 
-const registry: Record<string, string> = {
-  view1: 'http://localhost:5001',
-  view2: 'http://localhost:5002',
-};
-
-export default function EsmView(): JSX.Element {
-  const [state, setState] = React.useState<MicroFrontendState>({});
-
-  const loadView = React.useCallback(
-    async (baseUrl: string, name: string) => {
-      const response = await fetch(`${baseUrl}/package.json`);
-      const manifest = (await response.json()) as Manifest;
-
-      console.info(
-        'Manifest loaded for name',
-        name,
-        'at url',
-        baseUrl,
-        manifest,
-      );
-
-      if (manifest.module) {
-        void import(
-          /* webpackIgnore: true */ `${baseUrl}${manifest.module}`
-        ).then((AsyncModule) =>
-          setState((oldState) => ({
-            ...oldState,
-            [name]: (AsyncModule as View).default,
-          })),
-        );
-      }
-
-      // TODO: load the esm-view's local style, if present
-      /* if (manifest.style) {
-        // ...
-      }*/
-    },
-    [setState],
-  );
-
-  console.log(state.view1);
+export default function () {
+  const [remoteViews, pushRemoteView] = useArray<string>();
 
   return (
-    <div className="Container">
-      {Object.entries(registry).map(([name, url]) => {
-        const View = state[name];
-        return (
-          <div className="View">
-            {View ? (
-              <View />
-            ) : (
-              <button onClick={() => loadView(url, name)}>Load {name}</button>
-            )}
-          </div>
-        );
-      })}
-    </div>
+    <ToolkitProvider theme={'light'} density={'low'}>
+      <RemoteViews>
+        <ViewMenu url='http://localhost:5000' launch={pushRemoteView} />
+
+        <FlexLayout gap={1} wrap>
+          {remoteViews.map((v, key) =>
+            <FlexItem key={key} grow={1} className={styles.viewItem}>
+              <RemoteView baseUrl={v} />
+            </FlexItem>,
+          )}
+        </FlexLayout>
+      </RemoteViews>
+    </ToolkitProvider>
   );
 }
