@@ -1,0 +1,15 @@
+{
+  "name": "modular-template-grid-view",
+  "version": "1.0.0",
+  "private": false,
+  "modular": {
+    "type": "template",
+    "templateType": "esm-view"
+  },
+  "dependencies": {
+  },
+  "files": [
+    "README.md",
+    "src"
+  ]
+}

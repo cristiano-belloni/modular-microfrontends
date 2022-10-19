@@ -3391,7 +3391,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.6:
+classnames@^2.2.6, classnames@^2.3.2:
   version "2.3.2"
   resolved "https://artifacts.jpmchase.net/artifactory/api/npm/npm/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
   integrity sha1-NR2BO/ATf8xqdqFriCCNJWCg2SQ=

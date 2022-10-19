@@ -2,3 +2,7 @@
 .personGrid td {
   color: var(--uitk-text-primary-foreground);
 }
+
+.personDataGrid {
+  height: 100%;
+}
