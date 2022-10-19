@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, PropsWithChildren, useContext } from 'react';
 
 import { FormField } from '@jpmorganchase/uitk-core';
 import { AvatarSize } from '../types';
@@ -21,4 +21,11 @@ export function AvatarSizePicker({ onChange, value }: AvatarSizePickerParams) {
   </FormField>;
 }
 
+const avatarSizeContext = createContext<AvatarSize>('medium');
+
+export const AvatarSizeProvider = avatarSizeContext.Provider;
+
+export function useAvatarSize() {
+  return useContext(avatarSizeContext);
+}
 

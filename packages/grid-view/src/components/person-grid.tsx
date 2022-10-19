@@ -5,45 +5,39 @@ import { Avatar } from '@jpmorganchase/uitk-lab';
 
 import { AvatarSize, Person } from '../types';
 
-import styles from './person-grid.module.css'
-import classNames from 'classnames';
+import styles from './person-grid.module.css';
+import { useAvatarSize } from './avatar-size-picker';
 
 type PersonGridComponent = (props: { data: Person[], avatarSize: AvatarSize }) => JSX.Element;
 
-const UitkPersonGrid: PersonGridComponent = ({ data }) => {
+
+export const PersonGrid: PersonGridComponent = ({ data }) => {
+  const style = useAvatarSize() === 'large' && {
+    '--grid-row-height': '60px',
+  };
+
   return <Grid
     rowData={data}
     rowKeyGetter={row => row.avatar}
     className={styles.personDataGrid}
+    style={style}
   >
-    <GridColumn name={''} id={'avatar'} getValue={p => p.avatar} />
+    <GridColumn name={''} id={'avatar'} getValue={p => p.avatar}
+                cellValueComponent={AvatarCell}
+                defaultWidth={50}
+
+    />
     <GridColumn name={'First Name'} id={'first_name'}
-                getValue={p => p.avatar} />
-    <GridColumn name={'Email'} id={'email'} getValue={p => p.avatar} />
+                getValue={p => p.first_name}
+                defaultWidth={150}
+    />
+    <GridColumn name={'Email'} id={'email'} getValue={p => p.email}
+                defaultWidth={250}
+    />
   </Grid>;
 };
 
-
-const HtmlPersonGrid: PersonGridComponent = ({
-                                                  data,
-                                                  avatarSize,
-                                                }) => {
-  return <table className={classNames(styles.personGrid, styles.personDataGrid)}>
-    {data.map(person => (
-      <PersonRow key={person.avatar} person={person} size={avatarSize} />))}
-  </table>;
-};
-
-function PersonRow({
-                     person,
-                     size = 'small',
-                   }: { person: Person, size: AvatarSize }) {
-  return <tr>
-    <td><Avatar src={person.avatar} size={size} /></td>
-    <td><p>{person.first_name}</p></td>
-    <td><p>{person.email}</p></td>
-  </tr>;
+function AvatarCell({ row: { data: { avatar } } }: { row: { data: Person } }) {
+  const size = useAvatarSize();
+  return <Avatar src={avatar} size={size} />;
 }
-
-
-export const PersonGrid = UitkPersonGrid;
