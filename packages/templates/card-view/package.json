@@ -1,8 +1,9 @@
 {
-  "name": "grid-view",
+  "name": "modular-template-card-view",
   "private": false,
   "modular": {
-    "type": "esm-view"
+    "type": "template",
+    "templateType": "esm-view"
   },
   "dependencies": {
     "@jpmorganchase/uitk-core": "^0.6.0",
