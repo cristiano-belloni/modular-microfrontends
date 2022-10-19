@@ -20,7 +20,8 @@
     "test": "modular test",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "prettier": "prettier --write .",
-    "serve": "yarn workspace server start"
+    "clean": "git clean -fxd dist",
+    "serve": "yarn workspace server start & modular start host"
   },
   "eslintConfig": {
     "extends": "modular-app"

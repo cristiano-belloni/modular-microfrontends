@@ -1,8 +1,10 @@
 const { readdirSync } = require('fs');
 const { join } = require('path');
 const { execSync } = require('child_process');
+
 const cors = require('cors');
 const express = require('express');
+const { ensureDirSync } = require('fs-extra');
 const serveStatic = require('serve-static');
 
 const app = express();
@@ -10,6 +12,8 @@ app.set('root', join(
   execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim(),
   'dist',
 ));
+
+ensureDirSync(app.get('root'));
 
 app.use(cors());
 app.use(serveStatic(app.get('root')));
