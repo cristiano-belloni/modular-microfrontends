@@ -13,5 +13,9 @@
     "classnames": "^2.3.2"
   },
   "version": "1.0.0",
-  "devDependencies": {}
+  "devDependencies": {},
+  "files": [
+    "README.md",
+    "src"
+  ]
 }
