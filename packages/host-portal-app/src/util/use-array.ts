@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export function useArray<T>(initial: T[] = []) {
   const [array, setArray] = useState<T[]>(initial);
 
   return [
     array,
-    (item: T) => setArray(current => [...current, item]),
+    useCallback((item: T) => setArray(current => [...current, item]), [setArray]),
   ]
 }

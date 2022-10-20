@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Card, ToolkitProvider } from '@jpmorganchase/uitk-core';
 
@@ -11,21 +11,32 @@ import '@jpmorganchase/uitk-theme/index.css';
 const steve: Person = person('Steve', 'King', 'x');
 
 export default function EsmView(): JSX.Element {
-  const [person, togglePerson] = useToggle(PERSON, steve);
+  const person  = usePerson();
 
   return (
     <ToolkitProvider>
-      <Card onClick={togglePerson}>
+      <Card>
         <Profile person={person} />
       </Card>
     </ToolkitProvider>
   );
 }
 
-function useToggle<T>(first: T, second: T) {
-  const [state, setState] = useState(first);
-  return [
-    state,
-    () => setState(current => current === first ? second : first),
-  ];
+function usePerson() {
+  const [person, setPerson] = useState(PERSON);
+
+  useEffect(() => {
+    const listener = function (e) {
+      if (e.data?.broadcast !== 'person') {
+        return;
+      }
+      setPerson(e.data.person || PERSON);
+    };
+
+    window.addEventListener('message', listener);
+
+    return () => window.removeEventListener('message', listener);
+  }, [setPerson])
+
+  return person;
 }

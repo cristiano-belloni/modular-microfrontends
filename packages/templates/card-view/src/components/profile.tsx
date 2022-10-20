@@ -18,19 +18,7 @@ export function Profile({ person }: { person: Person }) {
         <div>{person.first_name}{' '}{person.last_name}</div>
         <label>Username</label>
         <div>{person.username}</div>
-        <ProfileEmail person={person} />
       </StackLayout>
     </GridItem>
   </GridLayout>;
-}
-
-function ProfileEmail({ person: { email } }: { person: Person }) {
-  if (!email) {
-    return null;
-  }
-
-  return <>
-    <label>Email</label>
-    <a href={`mailto:${email}`}>{email}</a>
-  </>;
 }

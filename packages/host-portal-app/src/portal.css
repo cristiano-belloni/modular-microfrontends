@@ -1,0 +1,7 @@
+:root {
+  --grid-row-height-default: 36px;
+}
+
+.uitkFlexLayout-separator > *:not(:last-child)::after {
+  align-self: stretch;
+}
