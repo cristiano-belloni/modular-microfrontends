@@ -1,0 +1,12 @@
+
+.viewItem {
+  flex-basis: 30%;
+}
+
+.app {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  left: 0;
+  width: 100vw;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "modular-template-grid-view",
+  "private": false,
+  "modular": {
+    "type": "template",
+    "templateType": "esm-view"
+  },
+  "dependencies": {
+    "@jpmorganchase/uitk-core": "^0.7.0",
+    "@jpmorganchase/uitk-grid": "^0.3.1",
+    "@jpmorganchase/uitk-lab": "^0.7.0",
+    "@jpmorganchase/uitk-theme": "^0.5.0",
+    "classnames": "^2.3.2"
+  },
+  "version": "1.0.0",
+  "devDependencies": {},
+  "files": [
+    "README.md",
+    "src"
+  ]
+}
