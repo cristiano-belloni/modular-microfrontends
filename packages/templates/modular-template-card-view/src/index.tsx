@@ -8,10 +8,6 @@ import { PERSON } from './util/person';
 import '@jpmorganchase/uitk-theme/index.css';
 
 import type { Person } from './types';
-interface ReceivedMessage {
-  broadcast: string;
-  person: Person;
-}
 
 export default function EsmView(): JSX.Element {
   const person = usePerson();
@@ -29,17 +25,12 @@ function usePerson() {
   const [person, setPerson] = useState(PERSON);
 
   useEffect(() => {
-    const listener = function (e: MessageEvent<ReceivedMessage>) {
-      if (e.data?.broadcast !== 'person') {
-        return;
-      }
-      setPerson(e.data.person || PERSON);
+    const bc = new BroadcastChannel('person_channel');
+    bc.onmessage = (e: MessageEvent<Person>) => {
+      setPerson(e.data);
     };
-
-    window.addEventListener('message', listener);
-
-    return () => window.removeEventListener('message', listener);
-  }, [setPerson]);
+    return () => bc.close();
+  }, []);
 
   return person;
 }
