@@ -5,16 +5,29 @@ import { Button } from '@jpmorganchase/uitk-core';
 
 interface ViewMenuProps {
   launch(baseUrl: string): void;
-
   url: string;
 }
 
-export function ViewMenu({ url, launch }: ViewMenuProps) {
-  const { data = [] } = useSwr(url, url => fetch(url).then(r => r.json()));
+interface CatalogDatum {
+  name: string;
+  root: string;
+  manifest: string;
+}
 
-  return <ButtonBar alignLeft={true}>
-    {data.map(({ name, root }) =>
-      <Button
-        onClick={() => launch(`${url}${root}`)}>{name}</Button>)}
-  </ButtonBar>;
+export function ViewMenu({ url, launch }: ViewMenuProps): JSX.Element {
+  const { data = [] } = useSwr<CatalogDatum[]>(url, (url) =>
+    fetch(url).then((r) => r.json()),
+  );
+
+  return (
+    <ButtonBar alignLeft={true}>
+      {data.length ? (
+        data.map(({ name, root }) => (
+          <Button onClick={() => launch(`${url}${root}`)}>{name}</Button>
+        ))
+      ) : (
+        <p>⚠️ Catalog is empty!</p>
+      )}
+    </ButtonBar>
+  );
 }
