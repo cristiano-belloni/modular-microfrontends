@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import { Grid, GridColumn } from '@jpmorganchase/uitk-grid';
 import { Avatar } from '@jpmorganchase/uitk-lab';
@@ -12,10 +12,17 @@ type PersonGridComponent = (props: { data: Person[] }) => JSX.Element;
 export const PersonGrid: PersonGridComponent = ({ data }) => {
   const style = {};
 
-  function onRowSelected([selected]: number[]) {
-    const person = (typeof selected === 'number' && data[selected]) || null;
-    window.postMessage({ person, broadcast: 'person' }, window.location.origin);
-  }
+  const bc = useRef(new BroadcastChannel('person_channel')).current;
+
+  useEffect(() => () => bc.close(), [bc]);
+
+  const handleRowSelected = useCallback(
+    ([selected]: number[]) => {
+      const person = (typeof selected === 'number' && data[selected]) || null;
+      bc.postMessage(person);
+    },
+    [bc, data],
+  );
 
   return (
     <Grid
@@ -23,7 +30,7 @@ export const PersonGrid: PersonGridComponent = ({ data }) => {
       rowKeyGetter={(row) => row.avatar}
       className={styles.personDataGrid}
       style={style}
-      onRowSelected={onRowSelected}
+      onRowSelected={handleRowSelected}
       rowSelectionMode={'single'}
       zebra
     >
