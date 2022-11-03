@@ -3,15 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { Card, ToolkitProvider } from '@jpmorganchase/uitk-core';
 
 import { Profile } from './components';
-import { Person } from './types';
-import { PERSON, person } from './util/person';
+import { PERSON } from './util/person';
 
 import '@jpmorganchase/uitk-theme/index.css';
 
-const steve: Person = person('Steve', 'King', 'x');
+import type { Person } from './types';
+interface ReceivedMessage {
+  broadcast: string;
+  person: Person;
+}
 
 export default function EsmView(): JSX.Element {
-  const person  = usePerson();
+  const person = usePerson();
 
   return (
     <ToolkitProvider>
@@ -26,7 +29,7 @@ function usePerson() {
   const [person, setPerson] = useState(PERSON);
 
   useEffect(() => {
-    const listener = function (e) {
+    const listener = function (e: MessageEvent<ReceivedMessage>) {
       if (e.data?.broadcast !== 'person') {
         return;
       }
@@ -36,7 +39,7 @@ function usePerson() {
     window.addEventListener('message', listener);
 
     return () => window.removeEventListener('message', listener);
-  }, [setPerson])
+  }, [setPerson]);
 
   return person;
 }
