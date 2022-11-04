@@ -1,0 +1,12 @@
+{
+  "name": "remote-view",
+  "private": false,
+  "modular": {
+    "type": "package"
+  },
+  "peerDependencies": {
+    "react": ">16.8.0"
+  },
+  "main": "./src/index.tsx",
+  "version": "1.0.0"
+}

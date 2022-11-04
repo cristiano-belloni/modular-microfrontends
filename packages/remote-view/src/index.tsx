@@ -6,13 +6,30 @@ import React, {
   useState,
 } from 'react';
 
-import { Manifest, View } from '../types';
+export type AppRegView = {
+  name: string;
+  root: string;
+  manifest: string;
+};
+
+export interface Manifest {
+  module: string;
+  style?: string;
+  styleImports?: string[];
+}
+
+export interface ViewModule {
+  default: React.ComponentType;
+}
 
 const loading = Symbol('loading');
 
-type MicroFrontendState = Record<string, React.ComponentType | typeof loading>;
-type GlobalStylesheetSet = Set<string>;
-type RemoteViewsContext = {
+export type MicroFrontendState = Record<
+  string,
+  React.ComponentType | typeof loading
+>;
+export type GlobalStylesheetSet = Set<string>;
+export type RemoteViewsContext = {
   microFrontends: [
     MicroFrontendState,
     (value: (prevState: MicroFrontendState) => MicroFrontendState) => void,
@@ -27,7 +44,7 @@ export const viewContext = createContext<RemoteViewsContext>(
   {} as RemoteViewsContext,
 );
 
-export const useRemoteView = (baseUrl: string): React.ComponentType | null => {
+export function useRemoteView(baseUrl: string): React.ComponentType | null {
   const {
     microFrontends: [microFrontendsState, setMicroFrontendsState],
     globalStyles: [globalStylesState, setGlobalStylesState],
@@ -80,11 +97,11 @@ export const useRemoteView = (baseUrl: string): React.ComponentType | null => {
   }
 
   return current;
-};
+}
 
-export const RemoteViews = ({
+export function RemoteViews({
   children,
-}: PropsWithChildren<unknown>): JSX.Element => {
+}: PropsWithChildren<unknown>): JSX.Element {
   const microFrontends = useState<MicroFrontendState>({});
   const globalStyles = useState<GlobalStylesheetSet>(new Set());
   return (
@@ -92,30 +109,30 @@ export const RemoteViews = ({
       {children}
     </viewContext.Provider>
   );
-};
+}
 
-export const RemoteView = ({ baseUrl }: { baseUrl: string }): JSX.Element => {
+export function RemoteView({ baseUrl }: { baseUrl: string }): JSX.Element {
   const ViewComponent = useRemoteView(baseUrl);
   return (ViewComponent && <ViewComponent />) || <div>Loading</div>;
-};
+}
 
-function injectRemoteCss(url: string) {
+export function injectRemoteCss(url: string): void {
   document.head.insertAdjacentHTML(
     'beforeend',
     `<link rel='stylesheet' href='${url}' />`,
   );
 }
 
-async function loadRemoteManifest(baseUrl: string) {
+export async function loadRemoteManifest(baseUrl: string): Promise<Manifest> {
   const response = await fetch(`${baseUrl}/package.json`);
   const manifest = (await response.json()) as Manifest;
   return manifest;
 }
 
-async function importRemoteModule(url: string) {
+async function importRemoteModule(url: string): Promise<React.ComponentType> {
   const { default: LoadedView } = (await import(
     /* webpackIgnore: true */ url
-  )) as View;
+  )) as ViewModule;
 
   return LoadedView;
 }

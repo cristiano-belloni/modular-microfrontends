@@ -6,6 +6,7 @@
   },
   "version": "1.0.0",
   "dependencies": {
+    "remote-view": "*",
     "swr": "^1.3.0",
     "@jpmorganchase/uitk-core": "^0.7.0",
     "@jpmorganchase/uitk-lab": "^0.7.0",

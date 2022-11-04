@@ -7,7 +7,8 @@ import {
   ToolkitProvider,
 } from '@jpmorganchase/uitk-core';
 
-import { RemoteView, RemoteViews, ThemePicker, ViewMenu } from './components';
+import { RemoteView, RemoteViews } from 'remote-view';
+import { ThemePicker, ViewMenu } from './components';
 import { useArray, useToggle } from './util';
 
 import '@jpmorganchase/uitk-theme/index.css';

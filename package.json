@@ -57,6 +57,7 @@
     "modular-scripts": "^3.4.1",
     "modular-template-app": "^1.1.0",
     "modular-template-esm-view": "^1.0.0",
+    "modular-template-package": "^1.1.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
