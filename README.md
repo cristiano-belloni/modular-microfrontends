@@ -1,22 +1,41 @@
-# Micro-Front End Portal
+# Modular Micro-Front End Portal
 
-## Getting Started
+## Remote View
 
-Load dependencies and start up the application catalogue server and build the
-host view.
+Simple collection of components, utilities and hooks to load and manage
+micro-frontends using Modular `esm-view`s.
 
+### Quick start
+
+```tsx
+import { RemoteView, RemoteViews } from 'remote-view';
+
+// Every <RemoteView /> rendered inside a <RemoteViews /> context
+// imports (if needed) and renders the esm-view served at baseUrl.
+// Local and global CSS in the esm-view manifest is automatically loaded and de-duplicated.
+export function Host({ remoteViews }) {
+  <RemoteViews>
+    {remoteViews.map((v, index) => (
+      <RemoteView baseUrl={v} key={index} />
+    ))}
+  </RemoteViews>;
+}
 ```
-yarn && yarn serve
-```
 
-## Create an Application
+## Run the examples
 
-### Example apps:
+Create apps from templates:
 
-```
-yarn modular add card-view --template=card-view
+```bash
+yarn modular add card-view --path packages/examples --template=card-view
 yarn build card-view
 
-yarn modular add grid-view --template=grid-view
+yarn modular add grid-view --path packages/examples --template=grid-view
 yarn build grid-view
+```
+
+Start the demo server and host:
+
+```bash
+yarn && yarn serve
 ```
