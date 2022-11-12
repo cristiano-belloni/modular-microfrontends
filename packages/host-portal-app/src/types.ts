@@ -11,7 +11,7 @@ export interface Manifest {
   module: string;
   style?: string;
   styleImports?: string[];
-  modular?: { type?: 'app' | 'esm-view' };
+  modular?: { type?: 'app' | 'esm-view' | 'package' | 'view' }; // TODO: this should be from modular-types
 }
 
 export interface View {
