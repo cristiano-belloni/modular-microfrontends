@@ -1,0 +1,9 @@
+{
+  "name": "modular-template-iframe-app",
+  "private": true,
+  "modular": {
+    "type": "template",
+    "templateType": "app"
+  },
+  "version": "1.0.0"
+}

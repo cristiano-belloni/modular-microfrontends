@@ -23,6 +23,11 @@ async function loadRemoteView(baseUrl: string): Promise<ComponentType | void> {
   const response = await fetch(`${baseUrl}/package.json`);
   const manifest = (await response.json()) as Manifest;
 
+  // Load into iframe if type is app
+  if (manifest?.modular?.type === 'app') {
+    return () => <iframe title={manifest.name} src={`${baseUrl}/index.html`} />;
+  }
+
   // Load global CSS
   manifest.styleImports?.forEach(injectRemoteCss);
 
