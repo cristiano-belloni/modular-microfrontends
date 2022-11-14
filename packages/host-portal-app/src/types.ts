@@ -9,6 +9,7 @@ export type AppRegView = {
 export interface Manifest {
   module: string;
   style?: string;
+  styleImports?: string[];
 }
 
 export interface View {

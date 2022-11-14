@@ -23,14 +23,12 @@ async function loadRemoteView(baseUrl: string): Promise<ComponentType | void> {
   const response = await fetch(`${baseUrl}/package.json`);
   const manifest = (await response.json()) as Manifest;
 
-  // TODO: check for (and eventually load) global CSS
+  // Load global CSS
+  manifest.styleImports?.forEach(injectRemoteCss);
 
   // Load microfrontend's local style
   if (manifest.style) {
-    document.head.insertAdjacentHTML(
-      'beforeend',
-      `<link rel='stylesheet' href='${baseUrl}${manifest.style}' />`,
-    );
+    injectRemoteCss(`${baseUrl}/${manifest.style}`);
   }
 
   // Dynamically import ESM entrypoint
@@ -68,6 +66,19 @@ export const useRemoteView = (baseUrl: string): React.ComponentType | null => {
 
   return current;
 };
+
+function injectRemoteCss(url: string) {
+  const node = document.head;
+
+  if (node.querySelector(`link[href="${url}"]`)) {
+    return;
+  }
+
+  node.insertAdjacentHTML(
+    'beforeend',
+    `<link rel='stylesheet' href='${url}' />`,
+  );
+}
 
 export const RemoteViews = ({
   children,
