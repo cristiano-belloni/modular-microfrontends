@@ -5,7 +5,7 @@ yarn build card-view
 yarn modular add grid-view --template=grid-view
 yarn build grid-view
 yarn modular add simple-app --template=iframe-app
-yarn build simple-app
+PUBLIC_URL="/microfrontends/simple-app" yarn build simple-app
 mkdir -p dist/pages/microfrontends
 echo '[ ' >> dist/pages/microfrontends/registry.json
 echo '{ "name": "card-view", "root": "/microfrontends/card-view", "manifest": "/microfrontends/card-view/package.json" },' >> dist/pages/microfrontends/registry.json
