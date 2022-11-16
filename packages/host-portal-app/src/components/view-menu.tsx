@@ -19,11 +19,14 @@ export function ViewMenu({ url, launch }: ViewMenuProps): JSX.Element {
     fetch(url).then((r) => r.json()),
   );
 
+  const baseUrl = new URL(url, window.location.origin).origin;
+  console.log({ baseUrl, data });
+
   return (
     <ButtonBar alignLeft={true}>
       {data.length ? (
         data.map(({ name, root }) => (
-          <Button onClick={() => launch(`${url}${root}`)}>{name}</Button>
+          <Button onClick={() => launch(`${baseUrl}${root}`)}>{name}</Button>
         ))
       ) : (
         <p>⚠️ Catalog is empty!</p>
