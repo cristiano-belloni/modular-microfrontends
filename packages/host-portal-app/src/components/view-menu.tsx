@@ -20,7 +20,6 @@ export function ViewMenu({ url, launch }: ViewMenuProps): JSX.Element {
   );
 
   const baseUrl = new URL(url, window.location.origin).origin;
-  console.log({ baseUrl, data });
 
   return (
     <ButtonBar alignLeft={true}>

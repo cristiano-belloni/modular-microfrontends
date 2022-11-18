@@ -16,7 +16,7 @@ import './portal.css';
 import { H3 } from '@jpmorganchase/uitk-lab';
 
 const registryUrl =
-  process.env.REACT_APP_REGISTY_URL || 'http://localhost:5000';
+  process.env.REACT_APP_REGISTY_URL || 'http://localhost:7777';
 
 export default function Host(): JSX.Element {
   const [remoteViews, pushRemoteView] = useArray<string>();
