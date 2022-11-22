@@ -3,9 +3,6 @@
 }
 
 .app {
-  position: absolute;
-  top: 0;
-  height: 100vh;
-  left: 0;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
