@@ -41,7 +41,7 @@ async function loadRemoteView(
   // Load with iframe if type is app or host decides to use fallback
   if (
     type === 'app' ||
-    (loadWithIframeFallback && loadWithIframeFallback(manifest))
+    loadWithIframeFallback.?(manifest)
   ) {
     return () => <iframe title={manifest.name} src={`${baseUrl}/index.html`} />;
   }
