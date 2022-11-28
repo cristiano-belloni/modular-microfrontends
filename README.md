@@ -15,10 +15,10 @@ yarn && yarn serve
 
 ```bash
 yarn modular add card-view --template=card-view
-PUBLIC_URL="/card-view" yarn build card-view
+yarn build card-view
 
 yarn modular add grid-view --template=grid-view
-PUBLIC_URL="/grid-view" yarn build grid-view
+yarn build grid-view
 
 yarn modular add simple-app --template=iframe-app
 PUBLIC_URL="/simple-app" yarn build simple-app
