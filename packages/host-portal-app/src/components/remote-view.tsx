@@ -28,7 +28,7 @@ async function loadRemoteView(
   const manifest = (await response.json()) as Manifest;
   const type = manifest?.modular?.type;
 
-  if (!type || (type !== 'esm-view' && type !== 'app')) {
+  if (type !== 'esm-view' && type !== 'app') {
     throw new Error(
       `Can't load package ${
         manifest.name
