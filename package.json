@@ -21,7 +21,8 @@
     "lint": "eslint . --ext .js,.ts,.tsx",
     "prettier": "prettier --write .",
     "clean": "git clean -fxd dist",
-    "serve": "yarn workspace server start & modular start host"
+    "serve": "yarn workspace server start & modular start host",
+    "build:pages": "./build-pages.sh"
   },
   "eslintConfig": {
     "extends": "modular-app"
@@ -54,7 +55,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "eslint-config-modular-app": "^3.0.1",
-    "modular-scripts": "^3.4.1",
+    "modular-scripts": "^3.5.0",
     "modular-template-app": "^1.1.0",
     "modular-template-esm-view": "^1.0.0",
     "prettier": "^2.7.1",

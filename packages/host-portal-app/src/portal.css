@@ -5,3 +5,12 @@
 .uitkFlexLayout-separator > *:not(:last-child)::after {
   align-self: stretch;
 }
+
+iframe {
+  background-color: transparent;
+  border: 0px none transparent;
+  padding: 0px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}

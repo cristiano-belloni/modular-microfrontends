@@ -11,6 +11,7 @@ import { Manifest, View } from '../types';
 
 const loading = Symbol('loading');
 type MicroFrontendState = Record<string, React.ComponentType | typeof loading>;
+type ManifestCheck = (manifest: Manifest) => boolean;
 
 const views = createContext<
   [
@@ -19,9 +20,31 @@ const views = createContext<
   ]
 >([{}, () => null]);
 
-async function loadRemoteView(baseUrl: string): Promise<ComponentType | void> {
+async function loadRemoteView(
+  baseUrl: string,
+  loadWithIframeFallback?: ManifestCheck,
+): Promise<ComponentType | void> {
   const response = await fetch(`${baseUrl}/package.json`);
   const manifest = (await response.json()) as Manifest;
+  const type = manifest?.modular?.type;
+
+  if (type !== 'esm-view' && type !== 'app') {
+    throw new Error(
+      `Can't load package ${
+        manifest.name
+      } because type is missing or not supported: ${
+        type || JSON.stringify(type)
+      }`,
+    );
+  }
+
+  // Load with iframe if type is app or host decides to use fallback
+  if (
+    type === 'app' ||
+    (loadWithIframeFallback && loadWithIframeFallback(manifest))
+  ) {
+    return () => <iframe title={manifest.name} src={`${baseUrl}/index.html`} />;
+  }
 
   // Load global CSS
   manifest.styleImports?.forEach(injectRemoteCss);
@@ -41,7 +64,10 @@ async function loadRemoteView(baseUrl: string): Promise<ComponentType | void> {
   }
 }
 
-export const useRemoteView = (baseUrl: string): React.ComponentType | null => {
+export const useRemoteView = (
+  baseUrl: string,
+  loadWithIframeFallback?: ManifestCheck,
+): React.ComponentType | null => {
   const [state, setState] = useContext(views);
   const current = state[baseUrl];
 
@@ -50,10 +76,10 @@ export const useRemoteView = (baseUrl: string): React.ComponentType | null => {
       return;
     }
 
-    void loadRemoteView(baseUrl).then((LoadedView) => {
+    void loadRemoteView(baseUrl, loadWithIframeFallback).then((LoadedView) => {
       LoadedView && setState((old) => ({ ...old, [baseUrl]: LoadedView }));
     });
-  }, [current, baseUrl, setState]);
+  }, [current, baseUrl, setState, loadWithIframeFallback]);
 
   if (current === undefined) {
     setState((prev) => ({ ...prev, [baseUrl]: loading }));
@@ -87,7 +113,13 @@ export const RemoteViews = ({
   return <views.Provider value={value}>{children}</views.Provider>;
 };
 
-export const RemoteView = ({ baseUrl }: { baseUrl: string }): JSX.Element => {
-  const ViewComponent = useRemoteView(baseUrl);
+export const RemoteView = ({
+  baseUrl,
+  loadWithIframeFallback,
+}: {
+  baseUrl: string;
+  loadWithIframeFallback?: ManifestCheck;
+}): JSX.Element => {
+  const ViewComponent = useRemoteView(baseUrl, loadWithIframeFallback);
   return (ViewComponent && <ViewComponent />) || <div>Loading</div>;
 };
